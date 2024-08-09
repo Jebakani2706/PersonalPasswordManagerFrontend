@@ -41,6 +41,7 @@ export class PasswordManagerServiceService {
 
     public Put(data:any,api_url:any)
     {
+      api_url = this.apiurl+api_url
       return this.http.put<any>(api_url,data).pipe(
         map(response => {
           return response;

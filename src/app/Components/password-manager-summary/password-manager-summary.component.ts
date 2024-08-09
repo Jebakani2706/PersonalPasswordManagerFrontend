@@ -13,9 +13,7 @@ export class PasswordManagerSummaryComponent implements OnInit {
   PasswordDetails = null;
 
   constructor(public passwordService: PasswordManagerServiceService, private modalService: NgbModal
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.GetAllPassword();
@@ -30,21 +28,42 @@ export class PasswordManagerSummaryComponent implements OnInit {
     );
   }
 
-  DeletePassword()
-  {
-
+  DeletePassword(id:any) {
+    this.passwordService.Delete("DeletePassword?id=" + id).subscribe(res => {
+      if (res.statusCode == 'SUCCESS') {
+        this.GetAllPassword();
+      }
+    }
+    )
   }
+
+  GetPasswordDetailById(passwordManagerId: any) {
+    this.passwordService.Get("GetPasswordById?id=" + passwordManagerId + "&decrypt=" + true).subscribe(res => {
+      if (res.statusCode == 'SUCCESS') {
+        this.PasswordDetails = res.data;
+        this.openModal(this.PasswordDetails)
+      }
+    }
+    )
+  }
+
 
   setPasswordDetails(pwd: any) {
-    this.openModal(pwd)
+    if (pwd != null) {
+      pwd = this.GetPasswordDetailById(pwd.passwordManagerId);
+    }
+    else
+    {
+      this.openModal(pwd)
+    }
   }
 
-  openModal(pwd :any) {
+  openModal(pwd: any) {
     let ngbModalOptions: NgbModalOptions = {
-      backdrop : 'static',
-      keyboard : false
+      backdrop: 'static',
+      keyboard: false
     };
-    const modalRef = this.modalService.open(AddPasswordComponent,ngbModalOptions);
+    const modalRef = this.modalService.open(AddPasswordComponent, ngbModalOptions);
     modalRef.componentInstance.PasswordDetails = pwd;
   }
 
