@@ -1,4 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "./assets/_variable.scss";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #f8f9fa;
+}
+
+.table-card {
+    border-radius: 4px;
+    border: 1px solid var(--Neutral-Stroke-Transparent-Rest, rgba(255, 255, 255, 0.00));
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.14), 0px 0px 2px 0px rgba(0, 0, 0, 0.12);
+}
+.thead {
+    font-size: 14px;
+    position: relative;
+    z-index: 2;
+    font-weight: 600;
+    color: #737373;
+}
+
+.mat-toolbar.mat-primary {
+    background: $primary;
+}
+
+.primary-color{
+    color: $primary;
+}
+.pointer
+{
+    cursor: pointer;
+}
+.icon-hover:hover
+{
+    background-color: #DFE8F5;
+    border-radius: 4px !important;
+}
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
