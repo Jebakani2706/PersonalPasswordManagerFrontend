@@ -3,6 +3,7 @@ import { PasswordManagerServiceService } from '../../Service/password-manager-se
 import { AddPasswordComponent } from '../add-password/add-password.component';
 import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
+import { PasswordViewComponent } from '../password-view/password-view.component';
 @Component({
   selector: 'app-password-manager-summary',
   templateUrl: './password-manager-summary.component.html',
@@ -50,11 +51,18 @@ export class PasswordManagerSummaryComponent implements OnInit {
     });
   }
 
-  GetPasswordDetailById(passwordManagerId: any) {
+  GetPasswordDetailById(passwordManagerId: any, IsView :any) {
     this.passwordService.Get("GetPasswordById?id=" + passwordManagerId + "&decrypt=" + true).subscribe(res => {
       if (res.statusCode == 'SUCCESS') {
         this.PasswordDetails = res.data;
-        this.openModal(this.PasswordDetails)
+        if(IsView)
+        {
+          this.openViewModel(this.PasswordDetails)
+        }
+        else
+        {
+          this.openModal(this.PasswordDetails)
+        }
       }
       else
       {
@@ -65,9 +73,10 @@ export class PasswordManagerSummaryComponent implements OnInit {
   }
 
 
-  setPasswordDetails(pwd: any) {
+  setPasswordDetails(pwd: any, IsView:any = false) {
+    debugger;
     if (pwd != null) {
-      pwd = this.GetPasswordDetailById(pwd.passwordManagerId);
+      pwd = this.GetPasswordDetailById(pwd.passwordManagerId,IsView);
     }
     else
     {
@@ -82,6 +91,23 @@ export class PasswordManagerSummaryComponent implements OnInit {
     };
     const modalRef = this.modalService.open(AddPasswordComponent, ngbModalOptions);
     modalRef.componentInstance.PasswordDetails = pwd;
+    debugger;
+    modalRef.result.then(
+      (result) => {
+        // This code runs when the modal is closed
+        this.GetAllPassword();
+      }
+    );
+  }
+
+  openViewModel(passwordDetail:any)
+  {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: 'static',
+      keyboard: false
+    };
+    const modalRef = this.modalService.open(PasswordViewComponent, ngbModalOptions);
+    modalRef.componentInstance.PasswordDetail = passwordDetail;
   }
 
 

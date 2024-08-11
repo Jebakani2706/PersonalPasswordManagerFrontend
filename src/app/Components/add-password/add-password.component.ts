@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { PasswordManagerServiceService } from 'src/app/Service/password-manager-service.service';
@@ -13,9 +13,10 @@ export class AddPasswordComponent implements OnInit {
   passwordForm: UntypedFormGroup;
   FormTitle: any = 'Create Password Manager';
   hide:any=true;
+  @Output() closeModal = new EventEmitter<void>();
   @Input('PasswordDetails') set PasswordDetails(event: any) {
     this.CreateForm();
-    if (event?.passwordManagerId != 0) {
+    if (event != null  && event?.passwordManagerId != 0) {
       this.FormTitle = 'Update Password Manager';
       this.patchFormData(event);
     }
@@ -45,9 +46,9 @@ export class AddPasswordComponent implements OnInit {
   }
   patchFormData(data: any) {
     this.passwordForm.patchValue({
-      passwordManagerId: data.passwordManagerId,
-      userName: data.userName,
-      password: data.decryptedPassword,
+      passwordManagerId: data?.passwordManagerId,
+      userName: data?.userName,
+      password: data?.decryptedPassword,
       category: data.category,
       app: data.app
     }
@@ -74,7 +75,7 @@ export class AddPasswordComponent implements OnInit {
         this.passwordService.Post(passwordData, 'AddPassword').subscribe(res => {
           if (res.statusCode == 'SUCCESS') {
             Swal.fire("SUCCESS",res.statusText,'success')
-            this.activeModal.close();
+            this.close();
           }
           else
           {

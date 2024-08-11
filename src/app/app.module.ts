@@ -13,12 +13,14 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PasswordViewComponent } from './Components/password-view/password-view.component'
 @NgModule({
   declarations: [
     AppComponent,
     PasswordManagerSummaryComponent,
-    AddPasswordComponent
+    AddPasswordComponent,
+    PasswordViewComponent
   ],
   imports: [
     BrowserModule,
